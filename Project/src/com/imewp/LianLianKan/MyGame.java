@@ -1,15 +1,10 @@
 package com.imewp.LianLianKan;
 
 
-import sun.management.snmp.jvminstr.JvmRTLibraryPathEntryImpl;
-
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.InputEvent;
-import java.awt.event.KeyEvent;
+import java.awt.event.*;
 import java.util.Random;
 
 public class MyGame extends JFrame {
@@ -138,6 +133,8 @@ public class MyGame extends JFrame {
 
         hint = new JButton("提示");
         hint.setPreferredSize(new Dimension(100, 40));
+        hint.addMouseListener(new MouseEvents());
+
         level = new JComboBox(new String[]{"初级难度", "中级难度", "高级难度"});
         level.setSelectedIndex(1);
         level.setPreferredSize(new Dimension(100, 40));
@@ -171,8 +168,39 @@ public class MyGame extends JFrame {
                 int row, col;
                 row = offset / COLUMN + 1;
                 col = offset % COLUMN;
-                JOptionPane.showMessageDialog(null, "行数为：" + row + "，列数为：" + col, "按钮", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null,
+                        "行数为：" + row + "，列数为：" + col,
+                        "按钮",
+                        JOptionPane.INFORMATION_MESSAGE);
             }
+        }
+    }
+
+    private class MouseEvents implements MouseListener {
+
+        @Override
+        public void mouseClicked(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mousePressed(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mouseEntered(MouseEvent e) {
+            hint.setBackground(Color.red);
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
+            hint.setBackground(Color.gray);
         }
     }
 
