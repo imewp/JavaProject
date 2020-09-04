@@ -6,6 +6,8 @@ import sun.management.snmp.jvminstr.JvmRTLibraryPathEntryImpl;
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.util.Random;
@@ -104,6 +106,8 @@ public class MyGame extends JFrame {
             int newNumber = random.nextInt(9) + 1;
             ImageIcon image = new ImageIcon("Project/src/com/imewp/LianLianKan/image/" + newNumber + ".jpg");
             dots[i] = new JButton("", image);
+            dots[i].setActionCommand(i + "");
+            dots[i].addActionListener(new ButtonEvent());
             gamePanel.add(dots[i]);
         }
     }
@@ -153,6 +157,23 @@ public class MyGame extends JFrame {
         functionPanel.add(p1, BorderLayout.NORTH);
         functionPanel.add(p2, BorderLayout.CENTER);
 
+    }
+
+    //内部类：监听器类
+    private class ButtonEvent implements ActionListener {
+
+        //游戏区按钮监听器
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (e.getSource() instanceof JButton) {
+                JButton button = (JButton) e.getSource();
+                int offset = Integer.parseInt(button.getActionCommand());
+                int row, col;
+                row = offset / COLUMN + 1;
+                col = offset % COLUMN;
+                JOptionPane.showMessageDialog(null, "行数为：" + row + "，列数为：" + col, "按钮", JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
     }
 
     //主方法
