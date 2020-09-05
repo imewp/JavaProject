@@ -134,6 +134,7 @@ public class MyGame extends JFrame {
         hint = new JButton("提示");
         hint.setPreferredSize(new Dimension(100, 40));
         hint.addMouseListener(new MouseEvents());
+        hint.addActionListener(new MultiEvents());
 
         level = new JComboBox(new String[]{"初级难度", "中级难度", "高级难度"});
         level.setSelectedIndex(1);
@@ -176,7 +177,8 @@ public class MyGame extends JFrame {
         }
     }
 
-    private class MouseEvents implements MouseListener {
+    //监听器类的使用
+   /* private class MouseEvents implements MouseListener {
 
         @Override
         public void mouseClicked(MouseEvent e) {
@@ -201,6 +203,29 @@ public class MyGame extends JFrame {
         @Override
         public void mouseExited(MouseEvent e) {
             hint.setBackground(Color.gray);
+        }
+    }*/
+
+    //适配器类的使用
+    private class MouseEvents extends MouseAdapter {
+        @Override
+        public void mouseEntered(MouseEvent e) {
+            hint.setBackground(Color.red);
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
+            hint.setBackground(Color.gray);
+        }
+    }
+
+    private class MultiEvents implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (e.getSource() == hint) {
+                JOptionPane.showMessageDialog(null, "注册多个事件", "按钮", JOptionPane.INFORMATION_MESSAGE);
+            }
         }
     }
 
