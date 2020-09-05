@@ -7,7 +7,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.Random;
 
-public class MyGame extends JFrame {
+public class MyGame extends JFrame implements ActionListener {
     private JPanel functionPanel;   //功能区面板
     private JPanel gamePanel;       //游戏区面板
 
@@ -25,7 +25,7 @@ public class MyGame extends JFrame {
     // 构造方法
     public MyGame() {
         this.setBounds(200, 100, 790, 500);
-        this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        this.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         this.setTitle("连连看");
 
         gamePanel = new JPanel();    //生成游戏区面板对象
@@ -45,7 +45,25 @@ public class MyGame extends JFrame {
         this.setResizable(false);
         this.setVisible(true);  //设置窗体可见
 
+        //内部匿名类
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                int re = JOptionPane.showConfirmDialog(null,
+                        "是否退出？",
+                        "提示",
+                        JOptionPane.YES_NO_CANCEL_OPTION,
+                        JOptionPane.QUESTION_MESSAGE);
+                if (re == JOptionPane.YES_OPTION) {
+                    System.exit(0);
+                } else {
+                    return;
+                }
+            }
+        });
 
+        Timer timer = new Timer(1000, this);
+        timer.start();
     }
 
     //生成菜单的方法
@@ -142,7 +160,9 @@ public class MyGame extends JFrame {
         talkList = new JTextArea(5, 5);
         talkList.setBorder(new BevelBorder(BevelBorder.LOWERED));
         talkList.setText("游戏进行中\n" + "玩家 imewp：大家好，一起来玩吧");
+
         speak = new JTextField(5);
+        speak.addKeyListener(new KeyEvents());
 
         p1.add(user);
         p1.add(score);
@@ -155,6 +175,15 @@ public class MyGame extends JFrame {
         functionPanel.add(p1, BorderLayout.NORTH);
         functionPanel.add(p2, BorderLayout.CENTER);
 
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        int r = (int) (Math.random() * 255);
+        int g = (int) (Math.random() * 255);
+        int b = (int) (Math.random() * 255);s
+
+        score.setForeground(new Color(r, g, b));
     }
 
     //内部类：监听器类
@@ -228,6 +257,16 @@ public class MyGame extends JFrame {
             }
         }
     }
+
+    private class KeyEvents extends KeyAdapter {
+        @Override
+        public void keyPressed(KeyEvent e) {
+            String s1 = "当前输入的字符是：" + e.getKeyChar();
+            String s2 = "编码是：" + e.getKeyCode();
+            talkList.setText(s1 + "\n" + s2);
+        }
+    }
+
 
     //主方法
     public static void main(String[] args) {
